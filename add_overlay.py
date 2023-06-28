@@ -7,6 +7,13 @@ from moviepy.editor import VideoFileClip, ImageClip, CompositeVideoClip, clips_a
 from PIL import Image
 import os 
 from moviepy.video.fx.all import resize
+from scipy.ndimage.filters import gaussian_filter
+import numpy as np
+
+def gaussian_blur(image, sigma):
+    """Applies Gaussian blur to an image."""
+    blurred = gaussian_filter(image.astype(float), sigma=(sigma, sigma, 0))
+    return np.array(blurred, dtype=np.uint8)
 
 def add_overlay(clip_path, output_path, overlay_path):
     # Load the overlay image with Pillow to get its size
@@ -22,8 +29,13 @@ def add_overlay(clip_path, output_path, overlay_path):
     # Resize the video to fit within the overlay
     resized_clip = clip.fx(resize, ratio)
 
-    # Create a blurred background
-    blur_clip = resized_clip.fx(resize, width=overlay_width, height=overlay_height)
+    low_quality_clip = clip.fx(resize, 0.5) 
+
+    # Create a blurred background and resize to fit the overlay
+    blur_clip = low_quality_clip.fl_image(lambda image: gaussian_blur(image, sigma=10))
+    blur_clip = blur_clip.fx(resize, height=overlay_height)
+
+
 
     resized_clip = resized_clip.set_position('center')
 

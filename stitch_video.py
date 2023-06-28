@@ -20,4 +20,10 @@ def stitch_many(input_dir, output_dir):
     final_clip = concatenate_videoclips(clips)
 
     # Write the final clip to a file
-    final_clip.write_videofile(output_dir + "/final.mp4")
+    final_clip.write_videofile(output_dir + "/stitched.mp4")
+
+input_dir = "./output/overlayed"
+output_dir = "./output"
+
+if __name__ == "__main__":
+    stitch_many(input_dir, output_dir)
