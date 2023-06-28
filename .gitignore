@@ -1,2 +1,7 @@
 data/*
 output/*
+venv
+*.pyc
+*.mp3
+*.mp4
+*.mov
