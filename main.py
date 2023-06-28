@@ -7,7 +7,7 @@ def create_compilation(input_dir, output_dir):
 
     print("Extracting action...")
     # runs extract_action, saves to some intermediate output dir
-    extract_action_from_many(input_dir, 60, output_dir + "/extracted_action")
+    extract_action_from_many(input_dir, 120, output_dir + "/extracted_action")
 
     print("Stripping audio...")
     # runs strip_audio, saves to some intermediate output dir
@@ -18,7 +18,7 @@ def create_compilation(input_dir, output_dir):
     add_overlay_to_many(output_dir + "/stripped_audio", output_dir + "/overlayed", "./assets/overlay.png")
 
     print("Stitching videos...")
-    stitch_many(output_dir + "/overlayed", output_dir + "/final.mp4")
+    stitch_many(output_dir + "/overlayed", output_dir)
     
 if __name__ == "__main__":
     print("CREATING COMPILATION")

@@ -71,6 +71,11 @@ def extract_action(video_path, window_size, output_path, padding_seconds=3):
     return max_diff_start_idx, max_diff_start_idx + window_size
 
 def extract_action_from_many(input_dir, total_duration, output_path):
+
+    # clear output_path:
+    for f in os.listdir(output_path):
+        os.remove(os.path.join(output_path, f))
+
     video_paths = [os.path.join(input_dir, f) for f in os.listdir(input_dir)]
 
     for video_path in video_paths:
