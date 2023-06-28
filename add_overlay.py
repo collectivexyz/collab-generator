@@ -24,16 +24,16 @@ def add_overlay(clip_path, output_path, overlay_path):
 
     # Create a blurred background
     blur_clip = resized_clip.fx(resize, width=overlay_width, height=overlay_height)
-    
-    # Position the resized video in the center of the frame
-    final_clip = clips_array([[blur_clip, resized_clip.set_position('center')]])
+
+    resized_clip = resized_clip.set_position('center')
+
+    composed_clip = CompositeVideoClip([blur_clip, resized_clip], size=(overlay_width, overlay_height))
 
     # Create an ImageClip from the overlay
-    overlay_clip = ImageClip(overlay_path, duration=clip.duration)
+    overlay_clip = ImageClip(overlay_path, duration=composed_clip.duration)
 
     # Overlay the image on the video clip
-    final_clip = CompositeVideoClip([final_clip, overlay_clip.set_duration(clip.duration)])
-
+    final_clip = CompositeVideoClip([composed_clip, overlay_clip])
 
     # Write the final clip to a file
     final_clip.write_videofile(output_path)
@@ -48,7 +48,7 @@ def add_overlay_to_many(input_dir, output_dir, overlay_path):
     for video_file in video_files:
         add_overlay(os.path.join(input_dir, video_file), os.path.join(output_dir, video_file), overlay_path)
 
-input_directory = "./data"
+input_directory = "./output/extracted_action"
 output_directory = "./output/overlayed"
 overlay_path = "./assets/overlay.png"
 
